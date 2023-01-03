@@ -1,0 +1,160 @@
+.scoreboard{
+    display: inline-block;
+    ul{
+        padding: 0;
+        display: inline-block;
+    }
+    li{
+        list-style: none;
+        display: inline-block;
+        margin: 0 2px;
+    }
+}
+
+
+// 不能为百分比，因为宽和高的百分比并不相同
+$line-wight: 3px;
+$light: red;
+$extinct: #e4e4e4;
+
+
+.pixelPoint.pixel{
+    &-0{
+        >span:nth-child(1),>span:nth-child(2), >span:nth-child(3),>span:nth-child(5),>span:nth-child(6), >span:nth-child(7){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-1{
+        >span:nth-child(3),>span:nth-child(6){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-2{
+        >span:nth-child(1),>span:nth-child(3),>span:nth-child(4),>span:nth-child(5),>span:nth-child(7){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-3{
+        >span:nth-child(1), >span:nth-child(3), >span:nth-child(4), >span:nth-child(6), >span:nth-child(7){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-4{
+        >span:nth-child(2),>span:nth-child(3), >span:nth-child(4), >span:nth-child(6){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-5{
+        >span:nth-child(1),>span:nth-child(2), >span:nth-child(4), >span:nth-child(6), >span:nth-child(7){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-6{
+        >span:nth-child(2),>span:nth-child(4), >span:nth-child(5), >span:nth-child(6),>span:nth-child(7){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-7{
+        >span:nth-child(1),>span:nth-child(3), >span:nth-child(6){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-8{
+        >span:nth-child(1),>span:nth-child(2), >span:nth-child(3), >span:nth-child(4),>span:nth-child(5),>span:nth-child(6), >span:nth-child(7){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+
+    &-9{
+        >span:nth-child(1),>span:nth-child(2),>span:nth-child(3), >span:nth-child(4), >span:nth-child(6){
+            box-shadow: 0 0 5px $light;
+            background-color: $light;
+        }
+    }
+}
+
+.pixelPoint{
+    position: relative;
+    // 渲染循序为上到下，左到有
+
+    >span:nth-child(n){
+        box-shadow: 0 0 5px $extinct;
+        border-radius: 50px;
+        background-color: $extinct;
+        position: absolute;
+    }
+
+    >span:nth-child(1){
+        width: 90%;
+        height: $line-wight;
+        top: 0px;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    >span:nth-child(2){
+        width: $line-wight;
+        height: 44%;
+        left: 0;
+        top: 5px;
+    }
+
+    >span:nth-child(3){
+        width:  $line-wight;
+        height: 44%;
+        top: 5px;
+        right: 0;
+    }
+
+    // 中间的横线
+    >span:nth-child(4){
+        width: 60%;
+        height:  $line-wight;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
+    }
+
+    >span:nth-child(5){
+        width:  $line-wight;
+        height: 35%;
+        top: 60%;
+        left: 0;
+    }
+
+    >span:nth-child(6){
+        width:  $line-wight;
+        height: 35%;
+        top: 60%;
+        right: 0px;
+    }
+
+    >span:nth-child(7){
+        width: 80%;
+        height:  $line-wight;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
+    }
+}
