@@ -3,48 +3,49 @@
 import { ref,reactive,toRefs } from 'vue'
 import { gameGm } from '../../const/coust';
 import {itemClass} from '../../const/coust'
+import { getAssertPath } from '../../utils/getAssertPath';
 
 defineProps<{ name?:"desc: 转盘组件",msg: string,size:number}>()
 
 const tigerItems = [[{
- image:"/orange.svg",
+ image:getAssertPath("/orange.svg"),
  point:10,
  class:itemClass.orange,
  index:0,
  name:"orange"
 },{
- image:"/bell.svg",
+ image:getAssertPath("/bell.svg"),
  index:1,
  point:10,
  class:itemClass.bell,
  name:"apple"
 },{
- image:"/jokey_two.svg",
+ image:getAssertPath("/jokey_two.svg"),
  index:2,
  point:25,
  class:itemClass.jokey,
  name:"apple"
 },{
- image:"/jokey_one.svg",
+ image:getAssertPath("/jokey_one.svg"),
  index:3,
  point:50,
  class:itemClass.jokey,
  name:"apple"
 },{
   index:4,
- image:"/apple.svg",
+ image:getAssertPath("/apple.svg"),
  point:5,
  class:itemClass.apple,
  name:"apple"
 },{
   index:5,
- image:"/apple.svg",
+ image:getAssertPath("/apple.svg"),
  point:2,
  class:itemClass.apple,
  name:"apple"
 },{
  index:6,
- image:"/lemon.svg",
+ image:getAssertPath("/lemon.svg"),
  point:10,
  class:itemClass.lemon,
  name:"apple"
@@ -53,31 +54,31 @@ const tigerItems = [[{
 [
 {
   index:23,
- image:"/bell.svg",
+ image:getAssertPath("/bell.svg"),
  point:2,
  class:itemClass.bell,
  name:"bell"
 },{
   index:22,
- image:"/apple.svg",
+ image:getAssertPath("/apple.svg"),
  point:5,
  class:itemClass.apple,
  name:"apple"
 },{
   index:21,
- image:"/lucky_right.svg",
+ image:getAssertPath("/lucky_right.svg"),
  class:itemClass.lucky,
  point:0,
  name:"lucky"
 },{
   index:20,
- image:"/star.svg",
+ image:getAssertPath("/star.svg"),
  point:20,
  class:itemClass.star,
  name:"star"
 },{
   index:19,
- image:"/star.svg",
+ image:getAssertPath("/star.svg"),
  point:10,
  class:itemClass.star,
  name:"star"
@@ -86,31 +87,31 @@ const tigerItems = [[{
 // 右侧栏
 [{
   index:7,
- image:"/watermelon.svg",
+ image:getAssertPath("/watermelon.svg"),
  point:10,
  class:itemClass.watermelon,
  name:"apple"
 },{
   index:8,
- image:"/watermelon.svg",
+ image:getAssertPath("/watermelon.svg"),
  point:2,
  class:itemClass.watermelon,
  name:"apple"
 },{
   index:9,
- image:"/lucky_left.svg",
+ image:getAssertPath("/lucky_left.svg"),
  class:itemClass.lucky,
  point:0,
  name:"apple"
 },{
   index:10,
- image:"/apple.svg",
+ image:getAssertPath("/apple.svg"),
  point:2,
  class:itemClass.apple,
  name:"apple"
 },{
   index:11,
- image:"/orange.svg",
+ image:getAssertPath("/orange.svg"),
  point:5,
  class:itemClass.orange,
  name:"apple"
@@ -118,43 +119,43 @@ const tigerItems = [[{
 // 底部数据
 [{
   index:18,
- image:"/lemon.svg",
+ image:getAssertPath("/lemon.svg"),
  point:10,
  class:itemClass.lemon,
  name:"apple"
 },{
   index:17,
- image:"/lemon.svg",
+ image:getAssertPath("/lemon.svg"),
  point:2,
  class:itemClass.lemon,
  name:"apple"
 },{
   index:16,
- image:"/apple.svg",
+ image:getAssertPath("/apple.svg"),
  point:5,
  class:itemClass.apple,
  name:"apple"
 },{
   index:15,
- image:"/cherry.svg",
+ image:getAssertPath("/cherry.svg"),
  point:20,
  class:itemClass.cherry,
  name:"apple"
 },{
   index:14,
- image:"/cherry.svg",
+ image:getAssertPath("/cherry.svg"),
  point:2,
  class:itemClass.cherry,
  name:"apple"
 },{
   index:13,
- image:"/bell.svg",
+ image:getAssertPath("/bell.svg"),
  point:10,
  class:itemClass.bell,
  name:"apple"
 },{
   index:12,
- image:"/orange.svg",
+ image:getAssertPath("/orange.svg"),
  point:10,
  class:itemClass.apple,
  name:"apple"

@@ -6,6 +6,7 @@ import Chip from '../../components/chip/chip.vue'
 import { AudioControl } from '../../utils/audioContrl';
 import { gameGm } from '../../const/coust';
 import { ConstantTypes } from '@vue/compiler-core';
+import { getAssertPath } from '../../utils/getAssertPath';
 
 defineProps<{ msg: string }>()
 
@@ -44,13 +45,13 @@ onMounted(()=>{
 const turntable = ref(Turntable)
 
 const audioControl = new AudioControl([{
-    src:'/mp3/t1.mp3',
+    src:getAssertPath('/mp3/t1.mp3'),
     duration: 300,
     type:'audio/mp3',
     name:'t1',
     volume: 1
   },{
-    src:'/mp3/t2.mp3',
+    src:getAssertPath('/mp3/t2.mp3'),
     name:'t2',
     duration: 300,
     type:'audio/mp3',
@@ -62,7 +63,7 @@ const audioControl = new AudioControl([{
     type:'audio/mpeg',
     volume: 0.2
   },{
-    src:'/mp3/poor.mp3',
+    src:getAssertPath('/mp3/poor.mp3'),
     name:'poor',
     duration: 1000,
     type:'audio/mpeg',
@@ -122,12 +123,22 @@ function changeVolume(){
   }
 }
 
+function getVolumeStatus(){
+  var img_path = ''
+  if(volume.value) {
+    img_path = `url(${getAssertPath('/volume_open.svg')})`
+  } else {
+    img_path = `url(${getAssertPath('/volume_close.svg')})`
+  }
+  return img_path
+}
+
 </script>
 
 <template>
   <div>
     <div class="options">
-      <button @click="changeVolume" :style="{backgroundImage:  volume ? `url(/volume_open.svg)` : `url(/volume_close.svg)`}"   >
+      <button @click="changeVolume" :style="{backgroundImage: getVolumeStatus()}"   >
     </button>
     </div>
   </div>

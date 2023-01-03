@@ -2,12 +2,13 @@
 <script setup lang="ts">
 import { ref,reactive,toRefs } from 'vue'
 import {gameGm, itemClass} from '../../const/coust'
+import { getAssertPath } from '../../utils/getAssertPath';
 import Scoreboard from '../scoreboard/scoreboard.vue'
 
 type itemType = {
-  image:string,
-  class:itemClass,
-  point:number
+  image: string,
+  class: itemClass,
+  point: number
 }
 
 const emit = defineEmits(["start","betting", "costFraction"])
@@ -15,40 +16,40 @@ const emit = defineEmits(["start","betting", "costFraction"])
 const state = reactive({
   itemChips:[
   {
-    image:"/jokey_one.svg",
+    image:getAssertPath("/jokey_one.svg"),
     class: itemClass.jokey,
     point:0,
   },
   {
-    image:"/apple.svg",
+    image:getAssertPath("/apple.svg"),
     class: itemClass.apple,
     point:0,
   },
   {
-    image:"/bell.svg",
+    image:getAssertPath("/bell.svg"),
     class: itemClass.bell,
     point:0,
   }, {
-    image:"/cherry.svg",
+    image:getAssertPath("/cherry.svg"),
     class: itemClass.cherry,
     point:0,
   },
    {
-    image:"/lemon.svg",
+    image:getAssertPath("/lemon.svg"),
     class: itemClass.lemon,
     point:0,
   },
   {
-    image:"/orange.svg",
+    image:getAssertPath("/orange.svg"),
     class: itemClass.orange,
     point:0,
   }, {
-    image:"/star.svg",
+    image:getAssertPath("/star.svg"),
     class: itemClass.star,
     point:0,
   },
   {
-    image:"/watermelon.svg",
+    image:getAssertPath("/watermelon.svg"),
     class: itemClass.watermelon,
     point:0,
   }
