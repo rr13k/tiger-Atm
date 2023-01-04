@@ -20,21 +20,21 @@ const tigerItems = [[{
  index:1,
  point:10,
  class:itemClass.bell,
- name:"apple",
+ name:"bell",
  probability:5
 },{
  image:getAssertPath("/jokey_two.svg"),
  index:2,
  point:25,
  class:itemClass.jokey,
- name:"apple",
+ name:"little_jokey",
  probability:2
 },{
  image:getAssertPath("/jokey_one.svg"),
  index:3,
  point:50,
  class:itemClass.jokey,
- name:"apple",
+ name:"big_jokey",
  probability:1
 },{
   index:4,
@@ -55,7 +55,7 @@ const tigerItems = [[{
  image:getAssertPath("/lemon.svg"),
  point:10,
  class:itemClass.lemon,
- name:"apple",
+ name:"lemon",
  probability:5
 }],
 // 左侧栏
@@ -79,7 +79,7 @@ const tigerItems = [[{
  image:getAssertPath("/lucky_right.svg"),
  class:itemClass.lucky,
  point:0,
- name:"lucky",
+ name:"star",
  probability:8
 },{
   index:20,
@@ -103,14 +103,14 @@ const tigerItems = [[{
  image:getAssertPath("/watermelon.svg"),
  point:10,
  class:itemClass.watermelon,
- name:"apple",
+ name:"watermelon",
  probability:5
 },{
   index:8,
  image:getAssertPath("/watermelon.svg"),
  point:2,
  class:itemClass.watermelon,
- name:"apple",
+ name:"watermelon",
  probability:12
 },{
   index:9,
@@ -131,7 +131,7 @@ const tigerItems = [[{
  image:getAssertPath("/orange.svg"),
  point:5,
  class:itemClass.orange,
- name:"apple",
+ name:"orange",
  probability:8
 }],
 // 底部数据
@@ -141,14 +141,14 @@ const tigerItems = [[{
  point:10,
  class:itemClass.lemon,
  probability:5,
- name:"apple"
+ name:"lemon"
 },{
   index:17,
  image:getAssertPath("/lemon.svg"),
  point:2,
  probability:12,
  class:itemClass.lemon,
- name:"apple"
+ name:"lemon"
 },{
   index:16,
  image:getAssertPath("/apple.svg"),
@@ -162,13 +162,13 @@ const tigerItems = [[{
  point:20,
  probability:4,
  class:itemClass.cherry,
- name:"apple"
+ name:"cherry"
 },{
   index:14,
  image:getAssertPath("/cherry.svg"),
  point:2,
  class:itemClass.cherry,
- name:"apple",
+ name:"cherry",
  probability:12
 },{
   index:13,
@@ -176,14 +176,14 @@ const tigerItems = [[{
  point:10,
  class:itemClass.bell,
  probability:5,
- name:"apple"
+ name:"bell"
 },{
   index:12,
  image:getAssertPath("/orange.svg"),
  point:10,
  probability:5,
  class:itemClass.apple,
- name:"apple"
+ name:"orange"
 }]] 
 
 const __sleep = (ms:number) => new Promise((res) => setTimeout(res, ms))
@@ -271,11 +271,12 @@ async function luckDraw(callback:(result:{
   })
 
   const prize = getItem(select.value % 24)
-  // console.log("抽奖结束最后的结果为",prize)
+  console.log("抽奖结束最后的结果为",prize)
+
   if(prize){
+    gameGm.audioControl?.play(prize.name)
     callback(prize)
   }
-  return prize
 }
 
 function RandomNumBoth(Min:number,Max:number):number{

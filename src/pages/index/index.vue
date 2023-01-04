@@ -70,7 +70,43 @@ const audioControl = new AudioControl([{
     src:getAssertPath('/mp3/poor.mp3'),
     name:'poor',
     volume: 0.3
-  }],20)
+  },{
+    src:getAssertPath('/mp3/apple.mp3'),
+    name:'apple',
+    volume: 0.3
+  },{
+    src:getAssertPath('/mp3/bell.mp3'),
+    name:'bell',
+    volume: 0.3
+  },{
+    src:getAssertPath('/mp3/big_jokey.mp3'),
+    name:'big_jokey',
+    volume: 0.3
+  },{
+    src:getAssertPath('/mp3/cherry.mp3'),
+    name:'cherry',
+    volume: 0.3
+  },{
+    src:getAssertPath('/mp3/lemon.mp3'),
+    name:'lemon',
+    volume: 0.3
+  },{
+    src:getAssertPath('/mp3/little_jokey.mp3'),
+    name:'little_jokey',
+    volume: 0.3
+  },{
+    src:getAssertPath('/mp3/orange.mp3'),
+    name:'orange',
+    volume: 0.3
+  },{
+    src:getAssertPath('/mp3/star.mp3'),
+    name:'star',
+    volume: 0.3
+  },{
+    src:getAssertPath('/mp3/watermelon.mp3'),
+    name:'watermelon',
+    volume: 0.3
+  }])
 
 gameGm.audioControl = audioControl
 

@@ -23,7 +23,7 @@ export class AudioControl {
      * @param soundEffects 
      * @param audioCount 最大并发的音效数
      */
-    constructor(soundEffects:SoundEffect[], audioCount:number = 5){
+    constructor(soundEffects:SoundEffect[]){
         this.soundEffects = soundEffects
         this.playerList = []
         for(let sound of soundEffects){
