@@ -13,43 +13,50 @@ const tigerItems = [[{
  point:10,
  class:itemClass.orange,
  index:0,
- name:"orange"
+ name:"orange",
+ probability:5
 },{
  image:getAssertPath("/bell.svg"),
  index:1,
  point:10,
  class:itemClass.bell,
- name:"apple"
+ name:"apple",
+ probability:5
 },{
  image:getAssertPath("/jokey_two.svg"),
  index:2,
  point:25,
  class:itemClass.jokey,
- name:"apple"
+ name:"apple",
+ probability:2
 },{
  image:getAssertPath("/jokey_one.svg"),
  index:3,
  point:50,
  class:itemClass.jokey,
- name:"apple"
+ name:"apple",
+ probability:1
 },{
   index:4,
  image:getAssertPath("/apple.svg"),
  point:5,
  class:itemClass.apple,
- name:"apple"
+ name:"apple",
+ probability:8
 },{
   index:5,
  image:getAssertPath("/apple.svg"),
  point:2,
  class:itemClass.apple,
- name:"apple"
+ name:"apple",
+ probability:8
 },{
  index:6,
  image:getAssertPath("/lemon.svg"),
  point:10,
  class:itemClass.lemon,
- name:"apple"
+ name:"apple",
+ probability:5
 }],
 // 左侧栏
 [
@@ -58,31 +65,36 @@ const tigerItems = [[{
  image:getAssertPath("/bell.svg"),
  point:2,
  class:itemClass.bell,
- name:"bell"
+ name:"bell",
+ probability:12
 },{
   index:22,
  image:getAssertPath("/apple.svg"),
  point:5,
  class:itemClass.apple,
- name:"apple"
+ name:"apple",
+ probability:8
 },{
   index:21,
  image:getAssertPath("/lucky_right.svg"),
  class:itemClass.lucky,
  point:0,
- name:"lucky"
+ name:"lucky",
+ probability:8
 },{
   index:20,
  image:getAssertPath("/star.svg"),
  point:20,
  class:itemClass.star,
- name:"star"
+ name:"star",
+ probability:3
 },{
   index:19,
  image:getAssertPath("/star.svg"),
  point:10,
  class:itemClass.star,
- name:"star"
+ name:"star",
+ probability:5
 }
 ],
 // 右侧栏
@@ -91,31 +103,36 @@ const tigerItems = [[{
  image:getAssertPath("/watermelon.svg"),
  point:10,
  class:itemClass.watermelon,
- name:"apple"
+ name:"apple",
+ probability:5
 },{
   index:8,
  image:getAssertPath("/watermelon.svg"),
  point:2,
  class:itemClass.watermelon,
- name:"apple"
+ name:"apple",
+ probability:12
 },{
   index:9,
  image:getAssertPath("/lucky_left.svg"),
  class:itemClass.lucky,
  point:0,
- name:"apple"
+ name:"apple",
+ probability:8
 },{
   index:10,
  image:getAssertPath("/apple.svg"),
  point:2,
  class:itemClass.apple,
- name:"apple"
+ name:"apple",
+ probability:5
 },{
   index:11,
  image:getAssertPath("/orange.svg"),
  point:5,
  class:itemClass.orange,
- name:"apple"
+ name:"apple",
+ probability:8
 }],
 // 底部数据
 [{
@@ -123,23 +140,27 @@ const tigerItems = [[{
  image:getAssertPath("/lemon.svg"),
  point:10,
  class:itemClass.lemon,
+ probability:5,
  name:"apple"
 },{
   index:17,
  image:getAssertPath("/lemon.svg"),
  point:2,
+ probability:12,
  class:itemClass.lemon,
  name:"apple"
 },{
   index:16,
  image:getAssertPath("/apple.svg"),
  point:5,
+ probability:8,
  class:itemClass.apple,
  name:"apple"
 },{
   index:15,
  image:getAssertPath("/cherry.svg"),
  point:20,
+ probability:4,
  class:itemClass.cherry,
  name:"apple"
 },{
@@ -147,28 +168,74 @@ const tigerItems = [[{
  image:getAssertPath("/cherry.svg"),
  point:2,
  class:itemClass.cherry,
- name:"apple"
+ name:"apple",
+ probability:12
 },{
   index:13,
  image:getAssertPath("/bell.svg"),
  point:10,
  class:itemClass.bell,
+ probability:5,
  name:"apple"
 },{
   index:12,
  image:getAssertPath("/orange.svg"),
  point:10,
+ probability:5,
  class:itemClass.apple,
  name:"apple"
 }]] 
 
 const __sleep = (ms:number) => new Promise((res) => setTimeout(res, ms))
-
+const distributionData = toDistributionData() // 根据原数据,获取分布数据
 const state = reactive({
   select: 23,
 })
 
 const { select } = toRefs(state);
+
+ /**
+  * @method 按概率分布随机
+  */
+function distributionRandom(datas:{
+  id:number ,
+  count:number
+}[]):number {
+  const jackpot:number[] = [] // 构建奖池
+  datas.map(data=>{
+    for(let c=0;c< data.count ; c++){
+      jackpot.push(data.id)
+    }
+  })
+
+  // 为了更好的效果打乱数组 
+  jackpot.sort(()=>{
+    return Math.random() - 0.5;
+  })
+
+  const coloredBall = RandomNumBoth(0, jackpot.length)
+  const prize = jackpot[coloredBall]
+  return prize
+}
+
+/**
+ * @method 将二维数组转换为概率分布数组
+ */
+function toDistributionData(){
+  let datas:{
+  id:number,
+  count:number}[]= []
+
+  for(let items of tigerItems){
+    items.map(item=>{
+      datas.push({
+        id: item.index,
+        count: item.probability || 1
+      })
+    })
+  }
+  return datas
+}
 
 /**
  * @method 开始抽奖-通过让数字模拟贝塔尔曲线变化即可实现滚动效果
@@ -178,13 +245,15 @@ async function luckDraw(callback:(result:{
   point:number,
   class:itemClass,
   name:string
-})=>{}){
-  select.value = select.value % 24
+})=>{},options?:{
+  avoid?: Number // 躲避概率(0-1),配置后将按概率回避,用户投注的奖项
+}){
+  select.value = select.value % 24 // 从上次中奖位置开始启动
 
+  const prizeValue = distributionRandom(distributionData)
   const round = Math.random() > 0.5 ? 72 : 48
-  let value :number = RandomNumBoth(0,23) + round
-  console.log("开始了抽奖",value)
-
+  let value :number = prizeValue + round
+  
   await new Promise((resolve,reject)=>{
     anime({
         targets: select,
@@ -201,11 +270,8 @@ async function luckDraw(callback:(result:{
       })
   })
 
-  console.log("抽奖真的完成了")
-
   const prize = getItem(select.value % 24)
-
-  console.log("抽奖结束最后的结果为",prize)
+  // console.log("抽奖结束最后的结果为",prize)
   if(prize){
     callback(prize)
   }

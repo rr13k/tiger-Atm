@@ -56,7 +56,6 @@ export class AudioControl {
         if (sound == undefined){
             throw new Error(`无法播放音乐,未找到音乐-${name}`)
         }
-        console.log("是否播放中",sound.player?.playing)
         // 播放中再播放就无效了, 因此临时clone一个播放
         if (sound.player?.playing){
             let clone_player = sound.player.clone()
