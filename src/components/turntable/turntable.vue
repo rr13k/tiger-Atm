@@ -192,6 +192,9 @@ async function luckDraw(callback:(result:{
         duration:2000,
         round:1,
         easing:'cubicBezier(.25,.01,.25,1)', // 先慢，后快，再慢
+        change(anim) {
+          gameGm.audioControl?.play("t2")
+        },
         complete:()=>{
           resolve(true)
         }

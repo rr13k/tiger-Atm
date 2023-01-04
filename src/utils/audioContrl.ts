@@ -1,9 +1,10 @@
+import Pizzicato from 'pizzicato'  // doc: https://alemangui.github.io/pizzicato/
+
 // 音效管理器
 type SoundEffect = {
     src:string,
-    duration: number,
-    type:string,
     name:string,
+    player?: Pizzicato.Sound,
     volume: number // 音量0-1
 }
 
@@ -25,13 +26,17 @@ export class AudioControl {
     constructor(soundEffects:SoundEffect[], audioCount:number = 5){
         this.soundEffects = soundEffects
         this.playerList = []
-        for(let a = 0 ; a <  audioCount ;a++){
-            const audioElement = document.createElement('audio')
-            let dom = document.body.appendChild(audioElement)
-            this.playerList.push({
-                dom,
-                finishTime:0
-            })
+        for(let sound of soundEffects){
+            var acousticGuitar = new Pizzicato.Sound({
+                source: 'file',
+                options:{
+                    path:sound.src,
+                    volume: sound.volume,
+                }
+            }, function() {
+                // Sound loaded!
+            });
+            sound.player = acousticGuitar
         }
     }
 
@@ -46,24 +51,19 @@ export class AudioControl {
         return player
     }
 
-    _play(player:Player,soundEffect:SoundEffect){
-        let now = new Date().getTime()
-        player.dom.setAttribute('src',soundEffect.src)
-        player.dom.setAttribute('type',soundEffect.type)
-        player.dom.volume = soundEffect.volume
-        player.finishTime = now + soundEffect.duration
-        // 非定时任务播放,可能播放旧的音频资源
-        setTimeout(() => {
-            player.dom.play()
-        }, 0);
-    }
-
     play(name:string){
         let sound = this.soundEffects.find(s=>{return s.name == name})
         if (sound == undefined){
             throw new Error(`无法播放音乐,未找到音乐-${name}`)
         }
-        let player = this.getPlayer()
-        this._play(player,sound)
+        console.log("是否播放中",sound.player?.playing)
+        // 播放中再播放就无效了, 因此临时clone一个播放
+        if (sound.player?.playing){
+            let clone_player = sound.player.clone()
+            clone_player.play()
+        } else {
+            sound.player?.play()
+        }
+        
     }
 }

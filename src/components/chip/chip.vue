@@ -76,10 +76,10 @@ function start() {
     gameGm.audioControl?.play('poor')
     return
   }
-  // 标记游戏开始
 
   const betPoints = getBetPoints()
   if (betPoints > 0) {
+    // 下注后-游戏开始
     starting.value = true
     emit("start", async (result: {
       point: number,
@@ -120,8 +120,6 @@ function start() {
         // 标记游戏轮次结束
         starting.value = false
       })
-
-      
 
     })
   } else {
