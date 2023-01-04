@@ -14,16 +14,18 @@
 
         span{
             position: absolute;
-            left: 0;
-            right: 0;
+            text-align: center;
+            top:70%;
+            left:50%;
+            transform:translate(-50%, -50%);
             bottom: 5px;
             font-weight: 600;
-            margin: auto;
-            color: #f9f9f9;
+            color: #ffffff;
             background-color: #7b7b7bba;
             display: inline-table;
             border-radius: 5px;
             padding: 0 3px;
+            font-size: 3vw;
         }
     }
 
