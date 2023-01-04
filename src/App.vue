@@ -10,7 +10,6 @@ import Tiger from './pages/index/index.vue'
 
 <style scoped>
   .box{
-    width: 80%;
     max-width: 600px;
     margin: auto;
   }

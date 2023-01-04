@@ -5,8 +5,8 @@ import Scoreboard from '../../components/scoreboard/scoreboard.vue'
 import Chip from '../../components/chip/chip.vue'
 import { AudioControl } from '../../utils/audioContrl';
 import { gameGm } from '../../const/coust';
-import { ConstantTypes } from '@vue/compiler-core';
 import { getAssertPath } from '../../utils/getAssertPath';
+import anime from 'animejs' // https://easings.net/zh-cn# 缓动函数参考
 
 defineProps<{ msg: string }>()
 
@@ -14,7 +14,7 @@ let bgmStarted = false
 
 const state = reactive({
   fraction: 0, // 分数
-  goldCoin: 100, // 金币
+  goldCoin: 5, // 金币
   volume:false
 })
 
@@ -32,7 +32,17 @@ function copyright(){
   console.log('%c----------------end-------------','color: blue')
 }
 
+/**
+ * @method 测试专用函数
+ */
+function test(){
+  console.log("执行了测试")
+  
+}
+
 onMounted(()=>{
+  prohibitZoom()
+
   const startBgm = ()=>{
     if(bgmStarted) return
     bgmStarted = true;
@@ -78,32 +88,100 @@ gameGm.audioControl = audioControl
  * @description return 获取不到返回值,必须使用callback
  * @returns 返回结算的结果，是否成功
  */
-function goldCalc(value:number,callback?:(resule:boolean)=>{}){
+async function goldCalc(value:number,callback?:(resule:boolean)=>{}){
   let result = true
-  if(value < 0 && goldCoin.value + value < 0) {
+  if (value < 0 && goldCoin.value + value < 0) {
     result = false
-  }else{
-    goldCoin.value += value
+  } else {
+    if (Math.abs(value) != 1) {
+      await animeSync({
+        targets: goldCoin,
+        value: goldCoin.value + value,
+        duration:500,
+        round:1,
+        easing:'easeInQuad' // 先慢后快
+      })
+    } else {
+      goldCoin.value += value
+    }
   }
-
   callback ? callback(result) : ''
 }
 
+/**
+ * @method 禁止页面缩放
+ */
+function prohibitZoom(){
+  // 禁止双指放大
+  document.documentElement.addEventListener('touchstart', function (event) {
+    if (event.touches.length > 1) {
+      event.preventDefault();
+    }
+  }, false);
+
+  // 禁止h5长按触发右键
+  document.oncontextmenu = (e)=>{return false} // win
+  document.addEventListener('contextmenu',(e)=>{e.preventDefault()}) // mac
+}
 
 const __sleep = (ms:number) => new Promise((res) => setTimeout(res, ms))
 
 /**
+ * @method 异步动画转同步动画
+ */
+function animeSync(params: anime.AnimeParams) {
+  return  new Promise<boolean>((resolve, reject) => {
+    anime({
+      ...params,
+      complete:()=>{
+        resolve(true)
+      }
+    })
+  })
+}
+
+/**
  * @method 结算分数
  */
-async function costFraction(_fraction:number,callback:()=>{}){
-  fraction.value += _fraction
-
-  await __sleep(1000)
+async function costFraction(_fraction:number, callback:()=>{}){
+  // 增加积分
+  await animeSync({
+    targets: fraction,
+    value: fraction.value + _fraction,
+    duration:500,
+    round:1,
+    easing:'easeInQuad', // 先慢后快
+  })
   
-  // 动画过完后，将积分加到金币中
-  // 一个加,一个减同步进行
-  goldCoin.value += _fraction
-  fraction.value = 0
+  await __sleep(500)
+  
+  // 将积分兑换成硬币
+  await Promise.all([
+    animeSync({
+        targets: goldCoin,
+        value: goldCoin.value + _fraction,
+        duration:500,
+        round:1,
+        easing:'easeInQuad', // 先慢后快
+        complete:()=>{
+          console.log("动画执行完啦")
+        }
+      }),
+
+    animeSync({
+    targets: fraction,
+    value: 0,
+    duration:500,
+    round:1,
+    easing:'easeInQuad', // 先慢后快
+    complete:()=>{
+      console.log("动画执行完啦")
+    }
+  })
+  ])
+
+  // 结束后,等一会在返回(用于观测积分是否有问题)
+  await __sleep(500)
 
   callback()
 }
@@ -115,7 +193,6 @@ function changeVolume(){
   if(volume.value == false){
     // 关闭bgm
     (document.getElementById("bgm") as HTMLAudioElement).pause()
-    
     
   }else{
     // 开启bum
@@ -136,6 +213,7 @@ function getVolumeStatus(){
 </script>
 
 <template>
+  <!-- <button @click="test">test</button> -->
   <div>
     <div class="options">
       <button @click="changeVolume" :style="{backgroundImage: getVolumeStatus()}"   >
@@ -143,8 +221,12 @@ function getVolumeStatus(){
     </div>
   </div>
   <header>
-    <span>当前分数:</span> <Scoreboard :length="4" :value="fraction" :font_wight="20"/>
-    <span>金币数:</span> <Scoreboard :length="4" :value="goldCoin" :font_wight="20"/>
+    <div>
+      <span>当前分数:</span> <Scoreboard :length="4" :value="fraction" :font_wight="20"/>
+    </div>
+    <div>
+      <span>金币数:</span> <Scoreboard :length="4" :value="goldCoin" :font_wight="20"/>
+    </div>
   </header>
   <Turntable msg="nihao" ref="turntable" :size="100"/>
   <Chip @start="turntable.luckDraw" @betting="goldCalc" @costFraction="costFraction" />

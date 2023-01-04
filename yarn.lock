@@ -12,6 +12,11 @@
   "resolved" "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.16.12.tgz"
   "version" "0.16.12"
 
+"@types/animejs@^3.1.6":
+  "integrity" "sha512-jYlEdbVTOOLBz1mauqhrigFUFAGde2KCdO/99asxHpF+5zOdz/VjNKbnpNa0oNBhsDNFzmMvvE+V4C8ZkvJdKg=="
+  "resolved" "https://registry.npmjs.org/@types/animejs/-/animejs-3.1.6.tgz"
+  "version" "3.1.6"
+
 "@vitejs/plugin-vue@^4.0.0":
   "integrity" "sha512-e0X4jErIxAB5oLtDqbHvHpJe/uWNkdpYV83AOG2xo2tEVSzCzewgJMtREZM30wXnM5ls90hxiOtAuVU6H5JgbA=="
   "resolved" "https://registry.npmjs.org/@vitejs/plugin-vue/-/plugin-vue-4.0.0.tgz"
@@ -151,6 +156,11 @@
   "integrity" "sha512-Ewzq5Yhimg7pSztDV+RH1UDKBzmtqieXQlpTVm2AwraoRL/Rks96mvd8Vgi7Lj+h+TH8dv7mXD3FRZR3TUvbSg=="
   "resolved" "https://registry.npmjs.org/@vue/shared/-/shared-3.2.45.tgz"
   "version" "3.2.45"
+
+"animejs@^3.2.1":
+  "integrity" "sha512-sWno3ugFryK5nhiDm/2BKeFCpZv7vzerWUcUPyAZLDhMek3+S/p418ldZJbJXo5ZUOpfm2kP2XRO4NJcULMy9A=="
+  "resolved" "https://registry.npmjs.org/animejs/-/animejs-3.2.1.tgz"
+  "version" "3.2.1"
 
 "anymatch@~3.1.2":
   "integrity" "sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw=="

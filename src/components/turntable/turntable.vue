@@ -4,6 +4,7 @@ import { ref,reactive,toRefs } from 'vue'
 import { gameGm } from '../../const/coust';
 import {itemClass} from '../../const/coust'
 import { getAssertPath } from '../../utils/getAssertPath';
+import anime from 'animejs'
 
 defineProps<{ name?:"desc: 转盘组件",msg: string,size:number}>()
 
@@ -178,29 +179,28 @@ async function luckDraw(callback:(result:{
   class:itemClass,
   name:string
 })=>{}){
-  let value :number = RandomNumBoth(0,23)
+  select.value = select.value % 24
 
-  const baseTime = 10 // 基础的一格切换时间
-  var bsr = 3 // 基础的变化系数
-  if(value < 48){
-    value = value + 48
-  }
-  // 执行的顺序应该为 慢->加速 -> 快 -> 逐渐慢
-  // 10%  又慢到快，  90% 快 ， 10 逐步慢
-  for(let i=0;i< value;i++) {
-    let rots = i / value 
-    if(rots < 0.2){ // 加速
-      bsr -= 0.1
-    }else if(rots > 0.9){ // 放慢
-      bsr += 3  
-    }
-    await __sleep(baseTime * bsr)
-    select.value = i % 24
+  const round = Math.random() > 0.5 ? 72 : 48
+  let value :number = RandomNumBoth(0,23) + round
+  console.log("开始了抽奖",value)
 
-    // gameGm.audioControl?.play("t2")
-  }
+  await new Promise((resolve,reject)=>{
+    anime({
+        targets: select,
+        value: value,
+        duration:2000,
+        round:1,
+        easing:'cubicBezier(.25,.01,.25,1)', // 先慢，后快，再慢
+        complete:()=>{
+          resolve(true)
+        }
+      })
+  })
 
-  const prize = getItem(select.value)
+  console.log("抽奖真的完成了")
+
+  const prize = getItem(select.value % 24)
 
   console.log("抽奖结束最后的结果为",prize)
   if(prize){
@@ -244,7 +244,7 @@ defineExpose({
   <main class="turntable">
     <header>
       <ul>
-        <li v-for="item in tigerItems[0]" :class="{select:select == item.index}">
+        <li v-for="item in tigerItems[0]" :class="{select: select % 24 == item.index}">
           <img :src="item.image" alt="" />
           <span>x{{item.point}}</span>
         </li>
@@ -253,7 +253,7 @@ defineExpose({
     <main>
       <div>
         <ul class="left">
-          <li v-for="item in tigerItems[1]" :class="{select:select == item.index}">
+          <li v-for="item in tigerItems[1]" :class="{select: select % 24 == item.index}">
           <img :src="item.image" alt="" />
           <span v-if="item.class != itemClass.lucky">x{{item.point}}</span>
         </li>
@@ -263,7 +263,7 @@ defineExpose({
       </div>
       <div>
         <ul class="right">
-          <li v-for="item in tigerItems[2]" :class="{select:select == item.index}">
+          <li v-for="item in tigerItems[2]" :class="{select: select % 24 == item.index}">
           <img :src="item.image" alt="" />
           <span v-if="item.class != itemClass.lucky">x{{item.point}}</span>
         </li>
@@ -272,7 +272,7 @@ defineExpose({
     </main>
     <footer>
       <ul>
-        <li v-for="item in tigerItems[3]" :class="{select:select == item.index}">
+        <li v-for="item in tigerItems[3]" :class="{select: select % 24 == item.index}">
           <img :src="item.image" alt="" />
           <span>x{{item.point}}</span>
         </li>
