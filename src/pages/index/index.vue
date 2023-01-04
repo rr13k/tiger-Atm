@@ -232,7 +232,7 @@ function getVolumeStatus(){
   <Chip @start="turntable.luckDraw" @betting="goldCalc" @costFraction="costFraction" />
   <!-- <button @click="test">test</button> -->
   <!-- 背景音乐 -->
-  <audio id="bgm" :src=getAssertPath("/mp3/backage.mp3") loop="true" volume="0.2" ></audio>
+  <audio id="bgm" :src="getAssertPath('/mp3/backage.mp3')" loop="true" volume="0.2" ></audio>
 
   <!-- 测试 -->
   <!-- <audio id="bgm" src="/mp3/coin.mp3" controls ></audio> -->
