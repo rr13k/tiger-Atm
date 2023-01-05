@@ -1,0 +1,105 @@
+.chip{
+    ul{
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+    }
+
+    li{
+        list-style: none;
+        display: inline-block;
+        margin: 0 3px;
+        vertical-align: top;
+        height: 100px;
+
+        .imgBox{
+            display: inline-block;
+            background-color: rgb(237, 237, 237);
+            img{
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        button{
+            background: aqua;
+        }
+    }
+}
+
+
+.pixel-btn{
+    border-radius: 50%;
+    display: inline-block;
+    background-color: rgb(133, 133, 5);
+    width: 40px;
+    user-select: none;
+
+    &-key{
+        width: 40px;
+        position: relative;
+
+        input{
+            width: 32px;
+            height: 32px;
+        }
+        
+        input:active{
+            margin-top: 2px;
+        }
+
+        img{
+            height: 60%;
+            width: 60%;
+            vertical-align: middle;
+            left: 0;
+            right: 0;
+            position: absolute;
+            margin: auto;
+            
+        }
+
+    }
+
+    input{
+        background-color: yellow;
+        border-radius: 50%;
+        display: inline-block;
+        width: 32px;
+
+
+        &:hover{
+            background-color: rgb(229, 229, 6);
+        }
+    }
+}
+
+.control{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 10px;
+
+    main{
+        margin-left: 10px;
+    }
+}
+
+.pixel-btn-rect{
+    margin-top: 5px;
+    background-color: rgb(133, 133, 5);
+    border-radius: 5px;
+    width: 50px;
+    height: 30px;
+    input{
+        color: black;
+        font-weight: 600;
+        border-radius: 5px;
+        background-color: yellow;
+        -webkit-appearance: none;
+        height: 80%;
+    }
+}
+
+.disabled{
+    background-color: #bcbcbc !important;
+}

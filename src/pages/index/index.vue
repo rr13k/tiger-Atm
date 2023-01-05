@@ -106,6 +106,10 @@ const audioControl = new AudioControl([{
     src:getAssertPath('/mp3/watermelon.mp3'),
     name:'watermelon',
     volume: 0.3
+  },{
+    src:getAssertPath('/mp3/fail.mp3'),
+    name:'fail',
+    volume: 0.8
   }])
 
 gameGm.audioControl = audioControl
@@ -170,8 +174,9 @@ function animeSync(params: anime.AnimeParams) {
 
 /**
  * @method 结算分数
+ * @param exchange 是否自动兑换成金币，默认true
  */
-async function costFraction(_fraction:number, callback:()=>{}){
+async function costFraction(_fraction:number,exchange:boolean=true, callback:()=>{}){
   // 增加积分
   await animeSync({
     targets: fraction,
@@ -183,11 +188,13 @@ async function costFraction(_fraction:number, callback:()=>{}){
   
   await __sleep(500)
   
+  if (exchange == false) return
+
   // 将积分兑换成硬币
   await Promise.all([
     animeSync({
         targets: goldCoin,
-        value: goldCoin.value + _fraction,
+        value: goldCoin.value + fraction.value,
         duration:500,
         round:1,
         easing:'easeInQuad', // 先慢后快
@@ -257,10 +264,10 @@ function getVolumeStatus(){
     </div>
   </header>
   <Turntable msg="nihao" ref="turntable" :size="100"/>
-  <Chip @start="turntable.luckDraw" @betting="goldCalc" @costFraction="costFraction" />
+  <Chip @start="turntable.start" @betting="goldCalc" @costFraction="costFraction" />
   <!-- <button @click="test">test</button> -->
   <!-- 背景音乐 -->
-  <audio id="bgm" :src="getAssertPath('/mp3/backage.mp3')" loop="true" volume="0.2" ></audio>
+  <audio id="bgm" :src="getAssertPath('/mp3/backage.mp3')" loop="true" volume="0.08" ></audio>
 
   <!-- 测试 -->
   <!-- <audio id="bgm" src="/mp3/coin.mp3" controls ></audio> -->

@@ -84,12 +84,15 @@ function start() {
     emit("start", async (result: {
       point: number,
       class: itemClass,
-      name: string
+      name: string,
+      event?: 'lucky'
     }) => {
       console.log("抽奖的结果", result)
       // 获取下注的内容
       const betItems = itemChips.value.filter(item => { return item.point > 0 })
       console.log("下注的内容", betItems)
+
+      // 计算本次获得的积分
       var integral = 0
       for (let item of betItems) {
         if (item.class == result.class) {
@@ -97,14 +100,15 @@ function start() {
         }
       }
 
-      if (integral > 0) {
-          console.log("恭喜你中奖了:", integral)
-          await new Promise((res)=>{
-            emit("costFraction", integral, () => {
-              res(true)
-            })
-          })
-      }
+      console.log("恭喜你中奖了:", integral, result.event != 'lucky',"true为清理")
+      await new Promise((res)=>{
+        emit("costFraction", integral, result.event != 'lucky', () => {
+          res(true)
+        })
+      })
+
+      // 当为幸运时，转盘并没有结束
+      if(result.event == 'lucky') return
 
       emit("betting", -betPoints, (result: boolean) => {
         if (result) {
