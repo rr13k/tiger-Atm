@@ -1,17 +1,3 @@
-.scoreboard{
-    display: inline-block;
-    ul{
-        padding: 0;
-        display: inline-block;
-    }
-    li{
-        list-style: none;
-        display: inline-block;
-        margin: 0 2px;
-    }
-}
-
-
 // 不能为百分比，因为宽和高的百分比并不相同
 $line-wight: 3px;
 $light: red;
@@ -156,5 +142,18 @@ $extinct: #ececec;
         right: 0;
         left: 0;
         margin: auto;
+    }
+}
+
+.scoreboard{
+    display: inline-block;
+    ul{
+        padding: 0;
+        display: inline-block;
+    }
+    li{
+        list-style: none;
+        display: inline-block;
+        margin: 0 2px;
     }
 }

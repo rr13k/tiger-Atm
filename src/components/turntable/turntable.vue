@@ -180,7 +180,7 @@ const tigerItems = [[{
   image: getAssertPath("/orange.svg"),
   point: 10,
   probability: 5,
-  class: itemClass.apple,
+  class: itemClass.orange,
   name: "orange"
 }]]
 
@@ -338,6 +338,7 @@ async function start(callback: (result: {
 
     switch (luckyResult) {
       case luckyItems.fail: // 吞币
+        console.log('哈哈, 真倒霉～被吞币了!')
         gameGm.audioControl?.play("fail")
         break
 

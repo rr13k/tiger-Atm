@@ -2,10 +2,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-// length 控制数字钟的个数 
-
 interface Props {
-  length?: number
+  length?: number // length 控制数字钟的个数 
   value?: number
   font_wight?: number
 }

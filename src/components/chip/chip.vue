@@ -195,7 +195,7 @@ function clear() {
       <div class="control">
         <main>
           <div class="pixel-btn-rect">
-            <input type="button" value="重制" @click="clear">
+            <input type="button" value="重置" @click="clear">
           </div>
           <div class="pixel-btn-rect">
             <input type="button" value="开始"  :class="starting ? 'disabled' : ''"  @click="start">

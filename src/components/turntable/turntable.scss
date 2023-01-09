@@ -69,5 +69,8 @@
 }
 
 .select{
-    background-color: #fff900 !important;
+    background-image: radial-gradient(#acff09, #ffdd05) !important;
+    box-shadow: 0 0 5px red;
+    z-index: 99;
+    animation: star 5s ease infinite;
 }
