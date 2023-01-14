@@ -56,6 +56,7 @@ const tigerItems = [[{
   point: 2,
   class: itemClass.apple,
   name: "apple",
+  transform:'scale(0.7)',
   probability: 8
 }, {
   index: 6,
@@ -63,6 +64,7 @@ const tigerItems = [[{
   point: 10,
   class: itemClass.lemon,
   name: "lemon",
+  transform:'scale(1.3)',
   probability: 5
 }],
 // 左侧栏
@@ -73,6 +75,7 @@ const tigerItems = [[{
     point: 2,
     class: itemClass.bell,
     name: "bell",
+    transform:'scale(0.7)',
     probability: 12
   }, {
     index: 22,
@@ -100,6 +103,7 @@ const tigerItems = [[{
     image: getAssertPath("/star.svg"),
     point: 10,
     class: itemClass.star,
+    transform:'scale(0.8)',
     name: "star",
     probability: 5
   }
@@ -116,6 +120,7 @@ const tigerItems = [[{
   index: 8,
   image: getAssertPath("/watermelon.svg"),
   point: 2,
+  transform:'scale(0.8)',
   class: itemClass.watermelon,
   name: "watermelon",
   probability: 12
@@ -131,12 +136,14 @@ const tigerItems = [[{
   image: getAssertPath("/apple.svg"),
   point: 2,
   class: itemClass.apple,
+  transform:'scale(0.7)',
   name: "apple",
   probability: 5
 }, {
   index: 11,
   image: getAssertPath("/orange.svg"),
   point: 5,
+  transform:'scale(0.7)',
   class: itemClass.orange,
   name: "orange",
   probability: 8
@@ -147,6 +154,7 @@ const tigerItems = [[{
   image: getAssertPath("/lemon.svg"),
   point: 10,
   class: itemClass.lemon,
+  transform:'scale(1.2)',
   probability: 5,
   name: "lemon"
 }, {
@@ -176,6 +184,7 @@ const tigerItems = [[{
   point: 2,
   class: itemClass.cherry,
   name: "cherry",
+  transform:'scale(0.8)',
   probability: 12
 }, {
   index: 13,
@@ -448,7 +457,7 @@ function test() {
     <header>
       <ul>
         <li v-for="item in tigerItems[0]" :class="{ select: selectActive(item.index) }" :style="{backgroundColor: item.backageColor}">
-          <img :src="item.image" alt="" />
+          <img :src="item.image" alt=""  :style="{transform:item.transform}"/>
           <span>x{{ item.point }}</span>
         </li>
       </ul>
@@ -457,7 +466,7 @@ function test() {
       <div>
         <ul class="left">
           <li v-for="item in tigerItems[1]" :class="{ select: selectActive(item.index) }" :style="{backgroundColor: item.backageColor}"  >
-            <img :src="item.image" alt="" />
+            <img :src="item.image" alt="" :style="{transform:item.transform}"/>
             <span v-if="item.class != itemClass.lucky">x{{ item.point }} </span>
           </li>
         </ul>
@@ -468,7 +477,7 @@ function test() {
       <div>
         <ul class="right">
           <li v-for="item in tigerItems[2]" :class="{ select: selectActive(item.index) }" :style="{backgroundColor: item.backageColor}">
-            <img :src="item.image" alt="" />
+            <img :src="item.image" alt="" :style="{transform:item.transform}"/>
             <span v-if="item.class != itemClass.lucky">x{{ item.point }}</span>
           </li>
         </ul>
@@ -477,7 +486,7 @@ function test() {
     <footer>
       <ul>
         <li v-for="item in tigerItems[3]" :class="{ select: selectActive(item.index) }" :style="{backgroundColor: item.backageColor}">
-          <img :src="item.image" alt="" />
+          <img :src="item.image" alt="" :style="{transform:item.transform}"/>
           <span>x{{ item.point }}</span>
         </li>
       </ul>

@@ -1,4 +1,5 @@
 .turntable{
+    min-height: 360px;
     ul{
         padding: 0;
         margin: 0;
@@ -19,17 +20,17 @@
         span{
             position: absolute;
             text-align: center;
-            top:70%;
-            left:50%;
-            transform:translate(-50%, -50%);
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             bottom: 5px;
-            font-weight: 600;
             color: #ffffff;
-            background-color: #7b7b7bba;
+            background-color: rgb(123 123 123 / 41%);
             display: inline-table;
             border-radius: 5px;
             padding: 0 3px;
-            font-size:  min(3vw,16px) ;
+            font-size: min(3vw, 16px);
+            font-weight: 900;
         }
     }
 
