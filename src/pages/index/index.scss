@@ -3,16 +3,6 @@
 .options{
     text-align: right;
 
-    button{
-        width: 20px;
-        height: 20px;
-        display: inline-block;
-        text-align: left;
-        background-size: 100% 100%;
-        background-color: #fbe5e5;
-        border: solid 2px black;
-    }
-
 }
 
 
@@ -20,4 +10,84 @@ header{
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
+}
+
+.setting{
+
+    &-icon{
+        width: 20px;
+        height: 20px;
+        background-color: #f4f4f4;
+        padding: 5px;
+        border-radius: 10px;
+        border: solid 1px #a1a0a0;
+        transition: all 0.3s;
+    }
+
+    &-icon:hover{
+        background-color: #e2e2e2;
+        cursor: pointer;
+        transform: rotate(90deg);
+    }
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 400px;
+    height: 200px;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #ececec;
+    border: 1px solid #d5d5d5;
+    box-shadow: 3px 2px 7px black;
+    position: fixed;
+    z-index: 999;
+
+    .close{
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    p{
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .close:hover{
+        background-color: rgb(220 220 220);
+        border-radius: 5px;
+    }
+
+    ul{
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+        text-align: left;
+        li{
+            list-style: none;
+            margin: 10px 3px;
+            vertical-align: top;
+
+            >b{
+                width: 120px;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+// 动画
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
 }

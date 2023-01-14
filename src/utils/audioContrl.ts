@@ -1,3 +1,4 @@
+import { gameGm } from './../const/coust';
 import Pizzicato from 'pizzicato'  // doc: https://alemangui.github.io/pizzicato/
 
 // 音效管理器
@@ -56,6 +57,11 @@ export class AudioControl {
         if (sound == undefined){
             throw new Error(`无法播放音乐,未找到音乐-${name}`)
         }
+
+        if(sound.player){
+            sound.player.volume = gameGm.soundEffectVolume  / 100
+        }
+        
         // 播放中再播放就无效了, 因此临时clone一个播放
         if (sound.player?.playing){
             let clone_player = sound.player.clone()

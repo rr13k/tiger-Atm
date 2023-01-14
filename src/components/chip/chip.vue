@@ -3,6 +3,7 @@
 import { ref, reactive, toRefs } from 'vue'
 import { gameGm, itemClass } from '../../const/coust'
 import { getAssertPath } from '../../utils/getAssertPath';
+import { RandomNumBoth } from '../../utils/suger';
 import Scoreboard from '../scoreboard/scoreboard.vue'
 
 type itemType = {
@@ -11,7 +12,7 @@ type itemType = {
   point: number
 }
 
-const emit = defineEmits(["start", "betting", "costFraction"])
+const emit = defineEmits(["start", "betting", "costFraction","playAnimation"])
 
 const state = reactive({
   itemChips: [
@@ -98,6 +99,26 @@ function start() {
         if (item.class == result.class) {
           integral += item.point * result.point
         }
+      }
+
+      if(integral < 20 && integral > 0) {
+        // 随机播放一种欢呼
+        let huanhu = 'huanhu' + RandomNumBoth(1,4)
+        gameGm.audioControl?.play(huanhu)
+      } else if(integral >= 20 && integral < 50){
+        console.log("执行播放动画")
+        // 随机播放烟花
+        const yanhuan = Math.random() > 0.5 ? 'yanhua1' : 'yanhua2'
+        emit('playAnimation', yanhuan)
+        gameGm.audioControl?.play('pao')
+      } else if(integral >= 50) { // 播放终极烟花
+        emit('playAnimation', 'yanhua3')
+        
+        // 放双炮
+        gameGm.audioControl?.play('pao')
+        setTimeout(() => {
+          gameGm.audioControl?.play('pao')
+        }, 300);
       }
 
       console.log("恭喜你中奖了:", integral, result.event != 'lucky',"true为清理")
