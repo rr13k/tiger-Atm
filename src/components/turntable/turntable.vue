@@ -212,7 +212,7 @@ const state = reactive({
 
 const { select } = toRefs(state);
 
-function playAnimation(name:string,onFinish:()=>[]){
+function playAnimation(name:string){
   type animaDataType = {
     [propName:string]:string
   }
@@ -224,6 +224,7 @@ function playAnimation(name:string,onFinish:()=>[]){
     yanhua2: getAssertPath("/lotties/yanhua2.json"),
     yanhua3: getAssertPath("/lotties/yanhua3.json"),
     year2023: getAssertPath("/lotties/2023.json"),
+    pande:getAssertPath("/lotties/pande.json"),
   }
 
   let fallGold = document.getElementById("animation")
@@ -348,7 +349,7 @@ async function start(callback: (result: {
   var prizeValue = distributionRandom(distributionData)
   const round = Math.random() > 0.5 ? 72 : 48
 
-  // prizeValue = 2 // 测试奖项写死
+  // prizeValue = 9 // 测试奖项写死
   let value: number = prizeValue + round
 
   await new Promise((resolve, reject) => {
@@ -387,6 +388,7 @@ async function start(callback: (result: {
     switch (luckyResult) {
       case luckyItems.fail: // 吞币
         console.log('哈哈, 真倒霉～被吞币了!')
+        playAnimation('pande')
         gameGm.audioControl?.play("fail")
         break
 
@@ -444,10 +446,6 @@ defineExpose({
   start,
   playAnimation
 })
-
-function test() {
-  console.log(select)
-}
 
 </script>
 
