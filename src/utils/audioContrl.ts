@@ -6,6 +6,7 @@ type SoundEffect = {
     src:string,
     name:string,
     player?: Pizzicato.Sound,
+    loop?:boolean,
     volume: number // 音量0-1
 }
 
@@ -18,6 +19,7 @@ type Player = {
 export class AudioControl {
     soundEffects:SoundEffect[] // 注册的音效
     playerList:Player[]
+    bgmList:Pizzicato.Sound[] // 管理bgm
 
     /**
      * 
@@ -27,12 +29,14 @@ export class AudioControl {
     constructor(soundEffects:SoundEffect[]){
         this.soundEffects = soundEffects
         this.playerList = []
+        this.bgmList = []
         for(let sound of soundEffects){
             var acousticGuitar = new Pizzicato.Sound({
                 source: 'file',
                 options:{
                     path:sound.src,
                     volume: sound.volume,
+                    loop:sound.loop,
                 }
             }, function() {
                 // Sound loaded!
@@ -52,23 +56,34 @@ export class AudioControl {
         return player
     }
 
+    changeBgmVolume() {
+        for(let bgm of this.bgmList ){
+            bgm.volume = gameGm.bgmVolume / 100
+        }
+    }
+
     play(name:string){
         let sound = this.soundEffects.find(s=>{return s.name == name})
-        if (sound == undefined){
+        if (sound == undefined || !sound.player){
             throw new Error(`无法播放音乐,未找到音乐-${name}`)
         }
 
         if(sound.player){
             sound.player.volume = gameGm.soundEffectVolume  / 100
         }
-        
+
+        let _player = sound.player
         // 播放中再播放就无效了, 因此临时clone一个播放
         if (sound.player?.playing){
-            let clone_player = sound.player.clone()
-            clone_player.play()
-        } else {
-            sound.player?.play()
+            _player = sound.player.clone()
+        } 
+
+        if(sound.loop) {
+            console.log("推送了bgm")
+            this.bgmList.push(_player)
         }
+
+        _player.play()
         
     }
 }

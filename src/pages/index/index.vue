@@ -27,13 +27,11 @@ const { fraction, goldCoin, volume, dialogs } = toRefs(state);
 
 watch(() => gameGm.bgmVolume, async (v) => {
   // 调整背景音
-  (document.getElementById("bgm") as HTMLAudioElement).volume = v / 100
+  gameGm.audioControl?.changeBgmVolume()
 }, { deep: true })
 
 watch(() => gameGm.soundEffectVolume, (v) => {
-  // 调整背景音
   gameGm.audioControl?.play('bi');
-  (document.getElementById("bgm") as HTMLAudioElement).volume = v / 100
 })
 
 // 新年的动效
@@ -46,6 +44,7 @@ onMounted(() => {
   // 限定每天100硬币
   let nowDate = getNowYYMMDD()
   let __goldCoin = localStorage.getItem(nowDate)
+  console.log("初始金币",__goldCoin)
   // __goldCoin = null // 测试获得金币
   if (__goldCoin == null) {
     console.log("今天第一次进入,奖励100金币")
@@ -61,8 +60,8 @@ onMounted(() => {
 
   const startBgm = () => {
     if (bgmStarted) return
+    gameGm.audioControl?.play('bgm')
     bgmStarted = true;
-    (document.getElementById("bgm") as HTMLAudioElement).play()
   }
   document.body.addEventListener('click', startBgm)
   copyright()
@@ -70,6 +69,7 @@ onMounted(() => {
 
 window.onbeforeunload = function (e) {
   let nowDate = getNowYYMMDD()
+  console.log( String(goldCoin.value + fraction.value),"goldCoin",goldCoin.value,"fraction",fraction.value)
   localStorage.setItem(nowDate, String(goldCoin.value + fraction.value))
 }
 
@@ -95,7 +95,14 @@ function copyright() {
   console.log('%c----------------end-------------', 'color: blue')
 }
 
-const audioControl = new AudioControl([{
+const audioControl = new AudioControl([
+{
+  src: getAssertPath('/mp3/backage.mp3'),
+  name: 'bgm',
+  loop:true,
+  volume: 0.5
+},
+{
   src: getAssertPath('/mp3/t1.mp3'),
   name: 't1',
   volume: 1
@@ -259,8 +266,6 @@ async function costFraction(_fraction: number, exchange: boolean = true, callbac
     return
   }
 
-  console.log("分数变化", _fraction)
-
   // 将积分兑换成硬币
   await Promise.all([
     animeSync({
@@ -310,17 +315,6 @@ function changeVolume() {
   }
 }
 
-// 修改音效
-function getVolumeStatus() {
-  var img_path = ''
-  if (volume.value) {
-    img_path = `url(${getAssertPath('/volume_open.svg')})`
-  } else {
-    img_path = `url(${getAssertPath('/volume_close.svg')})`
-  }
-  return img_path
-}
-
 </script>
 
 <template>
@@ -351,7 +345,7 @@ function getVolumeStatus() {
   <Chip @start="turntable.start" @playAnimation="turntable.playAnimation" @betting="goldCalc"
     @costFraction="costFraction" />
   <!-- 背景音乐 -->
-  <audio id="bgm" :src="getAssertPath('/mp3/backage.mp3')" loop="true" :volume="gameGm.bgmVolume / 100"></audio>
+  <!-- <audio id="bgm" :src="getAssertPath('/mp3/backage.mp3')" loop="true" :volume="gameGm.bgmVolume / 100"></audio> -->
 
   <Transition>
     <div v-if="dialogs.setting.visible" class="setting">
@@ -365,7 +359,7 @@ function getVolumeStatus() {
           </svg>
         </li>
         <li>
-          <b>背景音量</b><input type="range" v-model="gameGm.bgmVolume" />
+          <b>背景音量</b><input type="range" v-model="gameGm.bgmVolume" :volume="gameGm.bgmVolume / 100"/>
         </li>
         <li>
           <b>音效音量</b><input type="range" v-model="gameGm.soundEffectVolume" :volume="gameGm.soundEffectVolume / 100" />

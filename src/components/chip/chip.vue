@@ -91,7 +91,6 @@ function start() {
       console.log("抽奖的结果", result)
       // 获取下注的内容
       const betItems = itemChips.value.filter(item => { return item.point > 0 })
-      console.log("下注的内容", betItems)
 
       // 计算本次获得的积分
       var integral = 0
@@ -132,11 +131,7 @@ function start() {
       if(result.event == 'lucky') return
 
       emit("betting", -betPoints, (result: boolean) => {
-        if (result) {
-          // 扣减成功
-          console.log("分数足够，扣减成功")
-        } else {
-          console.log("扣减失败,历史下注清0")
+        if (!result) {
           // 清空下注
           itemChips.value.map(item => {
             item.point = 0
