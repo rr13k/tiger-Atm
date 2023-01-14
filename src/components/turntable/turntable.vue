@@ -7,6 +7,7 @@ import { getAssertPath } from '../../utils/getAssertPath';
 import anime from 'animejs'
 import lottie from 'lottie-web'
 import { RandomNumBoth } from '../../utils/suger';
+import { getMemoedVNodeCall } from '@vue/compiler-core';
 
 defineProps<{ name?: "desc: 转盘组件", msg: string, size: number }>()
 
@@ -303,6 +304,8 @@ async function luckyDraw(lastPrize: number) {
   const selected = select.value.map(i=>{return i.value % 24})
   selected.pop() // 去除新增的轮盘
 
+  gameGm.audioControl?.play("zhuandong")
+
   // 抽奖概率中去除幸运和已中奖的物品
   var prizeValue = distributionRandom(distributionData.filter(i => { return ![21, 9].concat(selected).includes(i.id) }))
   console.log("幸运获取的值为", prizeValue)
@@ -317,10 +320,8 @@ async function luckyDraw(lastPrize: number) {
       duration: 1000,
       round: 1,
       easing: 'cubicBezier(.25,.01,.25,1)', // 先慢，后快，再慢
-      change(anim) {
-        gameGm.audioControl?.play("t2")
-      },
       complete: () => {
+        gameGm.audioControl?.stopTurn()
         resolve(true)
       }
     })
@@ -359,11 +360,10 @@ async function start(callback: (result: {
       duration: 2000,
       round: 1,
       easing: 'cubicBezier(.25,.01,.25,1)', // 先慢，后快，再慢
-      change(anim) {
-        gameGm.audioControl?.play("t2")
-      },
       complete: () => {
         resolve(true)
+        // 关闭转盘音效
+        gameGm.audioControl?.stopTurn()
       }
     })
   })

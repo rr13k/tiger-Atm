@@ -82,6 +82,7 @@ function start() {
   if (betPoints > 0) {
     // 下注后-游戏开始
     starting.value = true
+    gameGm.audioControl?.play('zhuandong')
     emit("start", async (result: {
       point: number,
       class: itemClass,

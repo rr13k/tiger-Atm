@@ -98,14 +98,10 @@ const audioControl = new AudioControl([
   volume: 0.5
 },
 {
-  src: getAssertPath('/mp3/t1.mp3'),
-  name: 't1',
-  volume: 1
-}, {
-  src: getAssertPath('/mp3/t2.mp3'),
-  name: 't2',
-  volume: 0.1
-}, {
+  src: getAssertPath('/mp3/zhuandong.mp3'),
+  name: 'zhuandong',
+  volume: 0.5
+},{
   src: getAssertPath('/mp3/coin.mp3'),
   name: 'coin',
   volume: 0.2
@@ -341,8 +337,6 @@ function changeVolume() {
   <Turntable msg="nihao" ref="turntable" :size="100" />
   <Chip @start="turntable.start" @playAnimation="turntable.playAnimation" @betting="goldCalc"
     @costFraction="costFraction" />
-  <!-- 背景音乐 -->
-  <!-- <audio id="bgm" :src="getAssertPath('/mp3/backage.mp3')" loop="true" :volume="gameGm.bgmVolume / 100"></audio> -->
 
   <Transition>
     <div v-if="dialogs.setting.visible" class="setting">

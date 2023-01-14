@@ -12,5 +12,5 @@ export type GameGm = {
 export const gameGm:GameGm = reactive({
     audioControl:undefined,
     soundEffectVolume:ref(50),
-    bgmVolume:ref(50),
+    bgmVolume:ref(20),
 })

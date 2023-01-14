@@ -20,6 +20,7 @@ export class AudioControl {
     soundEffects:SoundEffect[] // 注册的音效
     playerList:Player[]
     bgmList:Pizzicato.Sound[] // 管理bgm
+    turn?:Pizzicato.Sound
 
     /**
      * 
@@ -30,6 +31,7 @@ export class AudioControl {
         this.soundEffects = soundEffects
         this.playerList = []
         this.bgmList = []
+
         for(let sound of soundEffects){
             var acousticGuitar = new Pizzicato.Sound({
                 source: 'file',
@@ -62,6 +64,14 @@ export class AudioControl {
         }
     }
 
+    stopTurn(){
+        if(this.turn){
+            this.turn.stop()
+        }else{
+            console.error("终止异常")
+        }
+    }
+
     play(name:string){
         let sound = this.soundEffects.find(s=>{return s.name == name})
         if (sound == undefined || !sound.player){
@@ -78,11 +88,15 @@ export class AudioControl {
             _player = sound.player.clone()
         } 
 
-        if(sound.loop) {
+        if(sound.loop) { // loop为背景音乐
+            _player.volume = gameGm.bgmVolume / 100
             this.bgmList.push(_player)
         }
 
+        if(name == 'zhuandong') {
+            this.turn = _player
+        }
+
         _player.play()
-        
     }
 }
