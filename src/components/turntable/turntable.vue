@@ -252,8 +252,8 @@ function distributionRandom(datas: {
     return Math.random() - 0.5;
   })
 
-  const coloredBall = RandomNumBoth(0, jackpot.length)
-  const prize = jackpot[coloredBall]
+  const coloredBall = RandomNumBoth(0, jackpot.length - 1)
+  var prize = jackpot[coloredBall]
   return prize
 }
 
