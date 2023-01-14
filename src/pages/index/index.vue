@@ -351,7 +351,7 @@ function getVolumeStatus() {
   <Chip @start="turntable.start" @playAnimation="turntable.playAnimation" @betting="goldCalc"
     @costFraction="costFraction" />
   <!-- 背景音乐 -->
-  <audio id="bgm" :src="getAssertPath('/mp3/backage.mp3')" loop="true" volume="0.08"></audio>
+  <audio id="bgm" :src="getAssertPath('/mp3/backage.mp3')" loop="true" :volume="gameGm.bgmVolume / 100"></audio>
 
   <Transition>
     <div v-if="dialogs.setting.visible" class="setting">
@@ -365,7 +365,7 @@ function getVolumeStatus() {
           </svg>
         </li>
         <li>
-          <b>背景音量</b><input type="range" v-model="gameGm.bgmVolume" :volume="gameGm.bgmVolume / 100" />
+          <b>背景音量</b><input type="range" v-model="gameGm.bgmVolume" />
         </li>
         <li>
           <b>音效音量</b><input type="range" v-model="gameGm.soundEffectVolume" :volume="gameGm.soundEffectVolume / 100" />
