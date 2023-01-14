@@ -11,9 +11,7 @@ import { RandomNumBoth } from '../../utils/suger';
 defineProps<{ name?: "desc: 转盘组件", msg: string, size: number }>()
 
 // 背景图片设置
-// const backageImage = "/15010317121150.jpeg"
-// const backageImage = "/bg2.svg"
-const backageImage = "/bg3.jpeg"
+const backageImage = getAssertPath("/bg3.jpeg")
 
 const tigerItems = [[{
   image: getAssertPath("/orange.svg"),
@@ -213,10 +211,10 @@ function playAnimation(name:string,onFinish:()=>[]){
   let animaData:animaDataType = {
     mostGold: "https://assets4.lottiefiles.com/packages/lf20_cx0mfs3q.json",
     ferrisWheel:"https://assets7.lottiefiles.com/packages/lf20_plgay0gr.json", // 摩天轮
-    yanhua1:"/lotties/yanhua1.json",
-    yanhua2:"/lotties/yanhua2.json",
-    yanhua3:"/lotties/yanhua3.json",
-    year2023:"/lotties/2023.json",
+    yanhua1: getAssertPath("/lotties/yanhua1.json"),
+    yanhua2: getAssertPath("/lotties/yanhua2.json"),
+    yanhua3: getAssertPath("/lotties/yanhua3.json"),
+    year2023: getAssertPath("/lotties/2023.json"),
   }
 
   let fallGold = document.getElementById("animation")
