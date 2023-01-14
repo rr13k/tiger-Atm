@@ -79,7 +79,6 @@ export class AudioControl {
         } 
 
         if(sound.loop) {
-            console.log("推送了bgm")
             this.bgmList.push(_player)
         }
 

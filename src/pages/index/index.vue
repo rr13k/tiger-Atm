@@ -8,9 +8,11 @@ import { gameGm } from '../../const/coust';
 import { getAssertPath } from '../../utils/getAssertPath';
 import anime from 'animejs' // https://easings.net/zh-cn# 缓动函数参考
 import { __sleep } from '../../utils/suger';
+import { getCookie, setCookie } from '../../utils/cookie';
 
 defineProps<{ msg: string }>()
 let bgmStarted = false
+const nowDate = getNowYYMMDD() // 以天为key
 
 const state = reactive({
   fraction: 0, // 分数
@@ -42,13 +44,12 @@ watch(() => gameGm.soundEffectVolume, (v) => {
 
 onMounted(() => {
   // 限定每天100硬币
-  let nowDate = getNowYYMMDD()
-  let __goldCoin = localStorage.getItem(nowDate)
+  // ios 无法使用localStorage, 因此改为cookie实现
+  let __goldCoin = getCookie(nowDate)
   console.log("初始金币",__goldCoin)
   // __goldCoin = null // 测试获得金币
-  if (__goldCoin == null) {
+  if (__goldCoin == null || __goldCoin == '') {
     console.log("今天第一次进入,奖励100金币")
-    localStorage.setItem(nowDate, "100")
   } else {
     goldCoin.value = Number(__goldCoin)
   }
@@ -66,12 +67,6 @@ onMounted(() => {
   document.body.addEventListener('click', startBgm)
   copyright()
 })
-
-window.onbeforeunload = function (e) {
-  let nowDate = getNowYYMMDD()
-  console.log( String(goldCoin.value + fraction.value),"goldCoin",goldCoin.value,"fraction",fraction.value)
-  localStorage.setItem(nowDate, String(goldCoin.value + fraction.value))
-}
 
 /**
  * @method 获取当前年月日
@@ -262,6 +257,8 @@ async function costFraction(_fraction: number, exchange: boolean = true, callbac
   if (exchange == false) return
 
   if (_fraction === 0 && fraction.value == 0) {
+    // 将剩余金币数更新
+    setCookie(nowDate,String(goldCoin.value))
     callback()
     return
   }

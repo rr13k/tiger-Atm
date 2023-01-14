@@ -88,7 +88,7 @@ function start() {
       name: string,
       event?: 'lucky'
     }) => {
-      console.log("抽奖的结果", result)
+      // console.log("抽奖的结果", result)
       // 获取下注的内容
       const betItems = itemChips.value.filter(item => { return item.point > 0 })
 
@@ -120,7 +120,6 @@ function start() {
         }, 300);
       }
 
-      console.log("恭喜你中奖了:", integral, result.event != 'lucky',"true为清理")
       await new Promise((res)=>{
         emit("costFraction", integral, result.event != 'lucky', () => {
           res(true)
