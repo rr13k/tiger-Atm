@@ -3,9 +3,12 @@
 童年老虎机项目复刻,支持web版及h5版本，供摸鱼使用。 开启声音效果更佳!
 
 
+# 在线体验
+在线游玩demo，[点击此处访问](https://rr13k.github.io/tiger-atm)
+
 ## 展示
 
-![老虎机](https://raw.githubusercontent.com/rr13k/tiger-Atm/main/src/assets/info.jpg)
+![老虎机](https://raw.githubusercontent.com/rr13k/tiger-Atm/main/src/assets/info.png)
 
 
 ## 开源许可
