@@ -8,7 +8,7 @@
 
 ## 展示
 
-![老虎机](https://raw.githubusercontent.com/rr13k/tiger-Atm/main/src/assets/info.png)
+![老虎机](https://raw.githubusercontent.com/rr13k/tiger-Atm/main/src/assets/info2.jpg)
 
 
 ## 开源许可
