@@ -173,6 +173,11 @@ const audioControl = new AudioControl([
   src: getAssertPath('/mp3/pao.mp3'),
   name: 'pao',
   volume: 0.8
+},
+{
+  src: getAssertPath('/mp3/train.mp3'),
+  name: 'train',
+  volume: 0.8
 }
 ])
 
@@ -239,18 +244,22 @@ function animeSync(params: anime.AnimeParams) {
  * @param exchange 是否自动兑换成金币，默认true, 当多次抽取时不能立即换算金币
  */
 async function costFraction(_fraction: number, exchange: boolean = true, callback: () => {}) {
-  // 增加积分
-  await animeSync({
-    targets: fraction,
-    value: fraction.value + _fraction,
-    duration: 500,
-    round: 1,
-    easing: 'easeInQuad', // 先慢后快
-  })
+  if (_fraction != 0){
+     // 增加积分
+    await animeSync({
+      targets: fraction,
+      value: fraction.value + _fraction,
+      duration: 500,
+      round: 1,
+      easing: 'easeInQuad', // 先慢后快
+    })
+   await __sleep(500)
+  }
 
-  await __sleep(500)
-
-  if (exchange == false) return
+  if (exchange == false){
+    callback()
+    return
+  } 
 
   if (_fraction === 0 && fraction.value == 0) {
     // 将剩余金币数更新

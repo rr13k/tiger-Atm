@@ -35,14 +35,14 @@ const tigerItems = [[{
   class: itemClass.jokey,
   name: "little_jokey",
   probability: 3,
-  backageColor:"rgb(153 204 242 / 44%)",
+  backageColor: "rgb(153 204 242 / 44%)",
 }, {
   image: getAssertPath("/jokey_one.svg"),
   index: 3,
   point: 50,
   class: itemClass.jokey,
   name: "big_jokey",
-  backageColor:"rgb(255 135 115 / 42%)",
+  backageColor: "rgb(255 135 115 / 42%)",
   probability: 2
 }, {
   index: 4,
@@ -57,7 +57,7 @@ const tigerItems = [[{
   point: 2,
   class: itemClass.apple,
   name: "apple",
-  transform:'scale(0.7)',
+  transform: 'scale(0.7)',
   probability: 8
 }, {
   index: 6,
@@ -65,7 +65,7 @@ const tigerItems = [[{
   point: 10,
   class: itemClass.lemon,
   name: "lemon",
-  transform:'scale(1.3)',
+  transform: 'scale(1.3)',
   probability: 5
 }],
 // 左侧栏
@@ -76,7 +76,7 @@ const tigerItems = [[{
     point: 2,
     class: itemClass.bell,
     name: "bell",
-    transform:'scale(0.7)',
+    transform: 'scale(0.7)',
     probability: 12
   }, {
     index: 22,
@@ -104,7 +104,7 @@ const tigerItems = [[{
     image: getAssertPath("/star.svg"),
     point: 10,
     class: itemClass.star,
-    transform:'scale(0.8)',
+    transform: 'scale(0.8)',
     name: "star",
     probability: 5
   }
@@ -121,7 +121,7 @@ const tigerItems = [[{
   index: 8,
   image: getAssertPath("/watermelon.svg"),
   point: 2,
-  transform:'scale(0.8)',
+  transform: 'scale(0.8)',
   class: itemClass.watermelon,
   name: "watermelon",
   probability: 12
@@ -137,14 +137,14 @@ const tigerItems = [[{
   image: getAssertPath("/apple.svg"),
   point: 2,
   class: itemClass.apple,
-  transform:'scale(0.7)',
+  transform: 'scale(0.7)',
   name: "apple",
   probability: 5
 }, {
   index: 11,
   image: getAssertPath("/orange.svg"),
   point: 5,
-  transform:'scale(0.7)',
+  transform: 'scale(0.7)',
   class: itemClass.orange,
   name: "orange",
   probability: 8
@@ -155,7 +155,7 @@ const tigerItems = [[{
   image: getAssertPath("/lemon.svg"),
   point: 10,
   class: itemClass.lemon,
-  transform:'scale(1.2)',
+  transform: 'scale(1.2)',
   probability: 5,
   name: "lemon"
 }, {
@@ -185,7 +185,7 @@ const tigerItems = [[{
   point: 2,
   class: itemClass.cherry,
   name: "cherry",
-  transform:'scale(0.8)',
+  transform: 'scale(0.8)',
   probability: 12
 }, {
   index: 13,
@@ -213,32 +213,33 @@ const state = reactive({
 
 const { select } = toRefs(state);
 
-function playAnimation(name:string){
+function playAnimation(name: string) {
   type animaDataType = {
-    [propName:string]:string
+    [propName: string]: string
   }
 
-  let animaData:animaDataType = {
+  let animaData: animaDataType = {
     mostGold: "https://assets4.lottiefiles.com/packages/lf20_cx0mfs3q.json",
-    ferrisWheel:"https://assets7.lottiefiles.com/packages/lf20_plgay0gr.json", // 摩天轮
+    ferrisWheel: "https://assets7.lottiefiles.com/packages/lf20_plgay0gr.json", // 摩天轮
     yanhua1: getAssertPath("/lotties/yanhua1.json"),
     yanhua2: getAssertPath("/lotties/yanhua2.json"),
     yanhua3: getAssertPath("/lotties/yanhua3.json"),
     year2023: getAssertPath("/lotties/2023.json"),
-    pande:getAssertPath("/lotties/pande.json"),
+    pande: getAssertPath("/lotties/pande.json"),
+    train: getAssertPath("/lotties/train.json"),
   }
 
   let fallGold = document.getElementById("animation")
-  if(fallGold != undefined){
-   let lottiePlayer = lottie.loadAnimation({
+  if (fallGold != undefined) {
+    let lottiePlayer = lottie.loadAnimation({
       container: fallGold,
-      renderer:"svg",
-      autoplay:true,
-      loop:false,
-      path:animaData[name],
+      renderer: "svg",
+      autoplay: true,
+      loop: false,
+      path: animaData[name],
     })
 
-    lottiePlayer.addEventListener('complete',()=>{
+    lottiePlayer.addEventListener('complete', () => {
       // 播放完毕后必需销毁
       lottiePlayer.destroy()
     })
@@ -294,14 +295,14 @@ function toDistributionData() {
  * @lastPrize 上次抽奖的奖品，以此为起点
  */
 async function luckyDraw(lastPrize: number) {
-  
+
   const drawIndex = select.value.length
   // 增加一个抽奖
   select.value.push({
     value: lastPrize
   })
 
-  const selected = select.value.map(i=>{return i.value % 24})
+  const selected = select.value.map(i => { return i.value % 24 })
   selected.pop() // 去除新增的轮盘
 
   gameGm.audioControl?.play("zhuandong")
@@ -331,6 +332,54 @@ async function luckyDraw(lastPrize: number) {
   console.log("幸运抽奖获取的奖品为:", prize)
   prize?.name ? gameGm.audioControl?.play(prize.name) : ''
   return prize
+}
+
+/**
+ * @method 开火车
+ * @param carriage 车厢数
+ */
+async function startTrain(carriage: number) {
+  const prizes: {
+    point: number,
+    class: itemClass,
+    event?: 'lucky'
+    name?: string
+  }[] = []
+
+  for (let i = 0; i < carriage; i++) {
+    select.value.push({
+      value: 0
+    })
+  }
+
+  var prizeValue = distributionRandom(distributionData.filter(i => { return ![21, 9].includes(i.id) }))
+  const round = Math.random() > 0.5 ? 12 : 24
+
+  let value: number = prizeValue + round
+  // prizeValue = 5 // 写死火车奖励
+
+  await new Promise((resolve, reject) => {
+    for (let i = 0; i < carriage; i++) {
+      anime({
+        targets: select.value[select.value.length - i - 1],
+        value: value + i,
+        duration: 8800,
+        round: 1,
+        delay: i + 10,
+        easing: 'cubicBezier(.25,.01,.25,1)', // 先慢，后快，再慢
+        complete: () => {
+          gameGm.audioControl?.stopTurn()
+          resolve(true)
+        }
+      })
+
+      const prize = getItem((value + i) % 24)
+      prizes.push(prize)
+    }
+  })
+
+  console.log("开火车的奖品为:", prizes)
+  return prizes
 }
 
 /**
@@ -372,7 +421,7 @@ async function start(callback: (result: {
 
   if (prize?.class == itemClass.lucky) {
     console.log("抽到了幸运")
-    enum luckyItems { fail, x2, x3 }
+    enum luckyItems { fail, x2, x3, train }
     let luckyDistributionData = [{
       id: luckyItems.fail,
       count: 3
@@ -382,6 +431,9 @@ async function start(callback: (result: {
     }, {
       id: luckyItems.x3,
       count: 5
+    }, {
+      id: luckyItems.train,
+      count: 3
     }]
     var luckyResult = distributionRandom(luckyDistributionData)
 
@@ -395,14 +447,26 @@ async function start(callback: (result: {
       case luckyItems.x2:
       case luckyItems.x3:
         const numbers = luckyResult == luckyItems.x2 ? 2 : 3
-        for(let i=0;i<numbers;i++){
+        for (let i = 0; i < numbers; i++) {
           const _prize = await luckyDraw(prizeValue)
-          if(_prize != undefined){
+          if (_prize != undefined) {
             callback({
-                ..._prize,
-                event:'lucky'
+              ..._prize,
+              event: 'lucky'
             })
           }
+        }
+        break
+
+      case luckyItems.train:
+        playAnimation("train")
+        gameGm.audioControl?.play("train")
+        const prizes =  await startTrain(Math.random() > 0.5 ? 4 : 5)
+        for(let _prize of prizes){
+          await callback({
+              ..._prize,
+              event: 'lucky'
+            })
         }
         break
       default:
@@ -424,7 +488,7 @@ async function start(callback: (result: {
 function getItem(index: number) {
   for (let items of tigerItems) {
     // @ts-ignore
-    let result = items.find((item:any) => {
+    let result = items.find((item: any) => {
       if (item.index == index) {
         return item
       }
@@ -454,8 +518,9 @@ defineExpose({
   <main class="turntable">
     <header>
       <ul>
-        <li v-for="item in tigerItems[0]" :class="{ select: selectActive(item.index) }" :style="{backgroundColor: item.backageColor}">
-          <img :src="item.image" alt=""  :style="{transform:item.transform}"/>
+        <li v-for="item in tigerItems[0]" :class="{ select: selectActive(item.index) }"
+          :style="{ backgroundColor: item.backageColor }">
+          <img :src="item.image" alt="" :style="{ transform: item.transform }" />
           <span>x{{ item.point }}</span>
         </li>
       </ul>
@@ -463,19 +528,21 @@ defineExpose({
     <main>
       <div>
         <ul class="left">
-          <li v-for="item in tigerItems[1]" :class="{ select: selectActive(item.index) }" :style="{backgroundColor: item.backageColor}"  >
-            <img :src="item.image" alt="" :style="{transform:item.transform}"/>
+          <li v-for="item in tigerItems[1]" :class="{ select: selectActive(item.index) }"
+            :style="{ backgroundColor: item.backageColor }">
+            <img :src="item.image" alt="" :style="{ transform: item.transform }" />
             <span v-if="item.class != itemClass.lucky">x{{ item.point }} </span>
           </li>
         </ul>
       </div>
-      <div class="bg" :style="{backgroundImage: `url('${backageImage}')` }">
+      <div class="bg" :style="{ backgroundImage: `url('${backageImage}')` }">
         <div id="animation"></div>
       </div>
       <div>
         <ul class="right">
-          <li v-for="item in tigerItems[2]" :class="{ select: selectActive(item.index) }" :style="{backgroundColor: item.backageColor}">
-            <img :src="item.image" alt="" :style="{transform:item.transform}"/>
+          <li v-for="item in tigerItems[2]" :class="{ select: selectActive(item.index) }"
+            :style="{ backgroundColor: item.backageColor }">
+            <img :src="item.image" alt="" :style="{ transform: item.transform }" />
             <span v-if="item.class != itemClass.lucky">x{{ item.point }}</span>
           </li>
         </ul>
@@ -483,8 +550,9 @@ defineExpose({
     </main>
     <footer>
       <ul>
-        <li v-for="item in tigerItems[3]" :class="{ select: selectActive(item.index) }" :style="{backgroundColor: item.backageColor}">
-          <img :src="item.image" alt="" :style="{transform:item.transform}"/>
+        <li v-for="item in tigerItems[3]" :class="{ select: selectActive(item.index) }"
+          :style="{ backgroundColor: item.backageColor }">
+          <img :src="item.image" alt="" :style="{ transform: item.transform }" />
           <span>x{{ item.point }}</span>
         </li>
       </ul>

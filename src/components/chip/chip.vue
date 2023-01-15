@@ -107,20 +107,16 @@ function start() {
         gameGm.audioControl?.play(huanhu)
       } else if(integral >= 20 && integral < 50){
         console.log("执行播放动画")
-        // 随机播放烟花
-        const yanhuan = Math.random() > 0.5 ? 'yanhua1' : 'yanhua2'
-        emit('playAnimation', yanhuan)
+        emit('playAnimation', 'yanhua1')
         gameGm.audioControl?.play('pao')
       } else if(integral >= 50) { // 播放终极烟花
         emit('playAnimation', 'yanhua3')
-        
         // 放双炮
         gameGm.audioControl?.play('pao')
         setTimeout(() => {
           gameGm.audioControl?.play('pao')
         }, 300);
       }
-
       await new Promise((res)=>{
         emit("costFraction", integral, result.event != 'lucky', () => {
           res(true)
