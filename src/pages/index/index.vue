@@ -52,8 +52,10 @@ function updateConfig(){
 function readConfig(){
   const cookieConfig = getCookie('config')
   console.log('cookieConfig',cookieConfig)
-  if(cookieConfig != null){
+  if(cookieConfig != null && cookieConfig != ''){
     const config = JSON.parse(cookieConfig)
+
+    console.log(cookieConfig,config)
     if(config.soundEffectVolume){
       gameGm.soundEffectVolume = config.soundEffectVolume
     }
