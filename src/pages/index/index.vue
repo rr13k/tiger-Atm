@@ -92,8 +92,9 @@ onMounted(() => {
 
   const startBgm = () => {
     if (bgmStarted) return
-    gameGm.audioControl?.play('bgm')
-    bgmStarted = true;
+    if(gameGm.audioControl?.play('bgm')){
+      bgmStarted = true;
+    }
   }
   document.body.addEventListener('click', startBgm)
   copyright()

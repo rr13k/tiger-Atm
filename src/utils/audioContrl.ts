@@ -100,7 +100,10 @@ export class AudioControl {
         // @ts-ignore 防止初始配置音量报错
         if ( _player.getRawSourceNode instanceof Function) {
             _player.play()
+        }else{
+            // 无法播放音乐，未加载完成
+            return false
         }
-
+        return true
     }
 }
