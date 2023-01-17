@@ -184,6 +184,23 @@ function clear() {
   emit("betting", count)
 }
 
+
+let adIndex = 0
+/**
+ * @method 测试动画效果
+ */
+function testPlayerAD(){
+  const ads =  ['yanhua1','yanhua2','yanhua3','year2023','pande','train']
+  if(ads[adIndex] == undefined){
+    adIndex = 0 
+  }
+  emit('playAnimation', ads[adIndex])
+  adIndex++
+}
+
+function test(){
+  testPlayerAD()
+}
 </script>
 
 <template >
@@ -194,23 +211,30 @@ function clear() {
           <img :src="item.image" alt="" />
         </div>
         <div>
-          <Scoreboard :value="item.point" />
+          <Scoreboard :value="item.point" :font_wight="0.4" />
         </div>
         <div>
           <div class="pixel-btn">
             <div class="pixel-btn-key">
-              <input type="image" :src="item.image" value="" @click="betting(item)" />
+              <div class="btn" @click="betting(item)">
+                <img :src="item.image" alt="" srcset="">
+              </div>
             </div>
           </div>
         </div>
       </li>
       <div class="control">
-        <main>
+        <main style="display: flex;">
+          <!-- <div class="pixel-btn-rect">
+            <div @click="test">测试</div>
+          </div> -->
           <div class="pixel-btn-rect">
-            <input type="button" value="重置" @click="clear">
+            <div @click="clear">清空</div>
           </div>
           <div class="pixel-btn-rect">
-            <input type="button" value="开始"  :class="starting ? 'disabled' : ''"  @click="start">
+            <div :class="starting ? 'disabled' : ''"  @click="start">
+              开始
+            </div>
           </div>
         </main>
       </div>

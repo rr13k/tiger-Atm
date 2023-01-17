@@ -12,6 +12,13 @@ $extinct: #ececec;
         }
     }
 
+    &-zero-0{
+        >span:nth-child(1),>span:nth-child(2), >span:nth-child(3),>span:nth-child(5),>span:nth-child(6), >span:nth-child(7){
+            box-shadow: 0 0 5px #9d9d9d;
+            background-color: #979797;
+        }
+    }
+
     &-1{
         >span:nth-child(3),>span:nth-child(6){
             box-shadow: 0 0 5px $light;
@@ -150,6 +157,7 @@ $extinct: #ececec;
     ul{
         padding: 0;
         display: inline-block;
+        margin: 0;
     }
     li{
         list-style: none;

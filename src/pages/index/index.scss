@@ -1,8 +1,14 @@
 
+#tiger-atm{
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
 .options{
     text-align: right;
-
+    padding: 0 10px;
 }
 
 

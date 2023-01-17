@@ -9,8 +9,4 @@ import Tiger from './pages/index/index.vue'
 </template>
 
 <style scoped>
-  .box{
-    max-width: 600px;
-    margin: auto;
-  }
 </style>

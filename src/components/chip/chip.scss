@@ -1,16 +1,22 @@
 .chip{
+    // display: flex;
     ul{
         padding: 0;
         margin: 0;
         display: inline-block;
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     li{
         list-style: none;
+        flex: 1;
         display: inline-block;
-        margin: 0 3px;
+        margin: 0 5px;
         vertical-align: top;
         height: 100px;
+
 
         .imgBox{
             display: inline-block;
@@ -18,12 +24,10 @@
             img{
                 width: 20px;
                 height: 20px;
+                pointer-events: none;
             }
         }
 
-        button{
-            background: aqua;
-        }
     }
 }
 
@@ -32,32 +36,57 @@
     border-radius: 50%;
     display: inline-block;
     background-color: rgb(133, 133, 5);
-    width: 40px;
     user-select: none;
 
     &-key{
-        width: 40px;
         position: relative;
+        padding: 5px;
 
         input{
             width: 32px;
             height: 32px;
             outline: none;
+            // pointer-events: none;
         }
+
+        .btn{
+            width: 32px;
+            height: 32px;
+            outline: none;
+            background-color: #ff0;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: -1px -2px 4px 0px #8b8b8b;
+            transition: all 0.2s;
+           
+            &:hover{
+                background-color: rgb(229, 229, 6);
+            }
+
+            &:active{
+                margin-top: 2px;
+            }
+
+        }
+
+
         
         input:active{
             margin-top: 2px;
         }
 
         img{
+            pointer-events: none;
             height: 60%;
             width: 60%;
             vertical-align: middle;
             left: 0;
             right: 0;
+            top: 0;
+            bottom: 0;
             position: absolute;
             margin: auto;
-            
+            user-select: none;
         }
 
     }
@@ -79,6 +108,7 @@
     display: inline-block;
     vertical-align: top;
     margin-top: 10px;
+    flex: 1;
 
     main{
         margin-left: 10px;
@@ -86,18 +116,21 @@
 }
 
 .pixel-btn-rect{
-    margin-top: 5px;
     background-color: rgb(133, 133, 5);
     border-radius: 5px;
     width: 50px;
-    height: 30px;
-    input{
+    height: 50px;
+    padding: 5px;
+    margin-left: 20px;
+
+    >div {
         color: black;
         font-weight: 600;
         border-radius: 5px;
         background-color: yellow;
-        -webkit-appearance: none;
-        height: 80%;
+        height: 100%;
+        text-align: center;
+        line-height: 50px;
     }
 }
 
