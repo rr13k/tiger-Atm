@@ -52,6 +52,7 @@
         >div{
             flex: 1;
             display: flex;
+            z-index: 99;
             li{
                 flex: 1;
                 height: 0;
